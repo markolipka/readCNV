@@ -30,3 +30,5 @@ return(data.frame)} #  the function finally returns the data.frame
 ## IDEA: return a list including the data.frame, header.definition.df$longname and some metadata (Date, position, cruise, operator, ...)
 
 ## FIXME: funky character in 'sigma'-colname may be a problem
+
+## TODO: include more would-be-NA-value conversions (David can help)
