@@ -2,11 +2,11 @@
 title: "readCNV example"
 author: "Marko Lipka"
 date: "12/2/2017"
-output: html_document
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, dev = "png", dpi = 90)
+knitr::opts_chunk$set(echo = TRUE)
 source("read.cnv.files.R")
 ```
 
