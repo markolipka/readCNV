@@ -1,0 +1,36 @@
+---
+title: "readCNV example"
+author: "Marko Lipka"
+date: "12/2/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source("read.cnv.files.R")
+```
+
+## read cnv file:
+
+```{r cars}
+df <- read.cnv.file("example data/V0001F01.cnv")
+
+head(df)
+```
+
+## Plot
+
+
+```{r pressure, echo=FALSE}
+library("reshape2")
+melted.df <- melt(df, id.vars = "depSM")
+
+library("ggplot2")
+ggplot(subset(melted.df, variable %in% c("c0mS.cm", "t090C", "sal00", "sbeox0ML.L")),
+       aes(x = depSM, y = value)) +
+    geom_point() +
+    scale_x_reverse() +
+    coord_flip() +
+#    facet_grid(.~variable) +
+    theme_bw()
+```

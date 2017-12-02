@@ -4,7 +4,7 @@
 ##############################################################
 
 
-read.cnv.files <- function(filename){ #  filename as character string (e.g. "V0033F01.cnv")
+read.cnv.file <- function(filename){ #  filename as character string (e.g. "V0033F01.cnv")
   csv.file <- readLines(filename, encoding = "latin1") #  reads the file as large character string
   # substitute terrible would-be-NA-values with less terrible would-be-NA-values:
   csv.file <- gsub("-9.990e-29", " NA ", csv.file) 
@@ -29,6 +29,6 @@ return(data.frame)} #  the function finally returns the data.frame
 
 ## IDEA: return a list including the data.frame, header.definition.df$longname and some metadata (Date, position, cruise, operator, ...)
 
-## FIXME: funky character in 'sigma'-colname may be a problem
+## FIXME: funky character in 'sigma'-colname may be a problem (David?)
 
 ## TODO: include more would-be-NA-value conversions (David can help)
