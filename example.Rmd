@@ -21,16 +21,20 @@ head(df)
 ## Plot
 
 
-```{r pressure, echo=FALSE}
+```{r pressure, echo=FALSE, fig.width=12, fig.height=4}
 library("reshape2")
-melted.df <- melt(df, id.vars = "depSM")
+melted.df <- melt(df,
+                  id.vars = c("depSM", "scan", "nbin",
+                              "flag", "timeS", "nbf",
+                              "altM", "prDM"))
 
 library("ggplot2")
-ggplot(subset(melted.df, variable %in% c("c0mS.cm", "t090C", "sal00", "sbeox0ML.L")),
+ggplot(melted.df,
        aes(x = depSM, y = value)) +
-    geom_point() +
+    geom_line() +
     scale_x_reverse() +
     coord_flip() +
-#    facet_grid(.~variable) +
-    theme_bw()
+    facet_grid(.~variable, scales = "free") +
+    theme_bw() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
