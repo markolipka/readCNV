@@ -28,6 +28,7 @@ read.cnv.file <- function(filename){ #  filename as character string (e.g. "V003
 return(data.frame)} #  the function finally returns the data.frame
 
 ## IDEA: return a list including the data.frame, header.definition.df$longname and some metadata (Date, position, cruise, operator, ...)
+##      or even include the meta-data into the data.frame?
 
 ## FIXME: funky character in 'sigma'-colname may be a problem (David?)
 
