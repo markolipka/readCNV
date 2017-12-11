@@ -26,7 +26,9 @@ library("reshape2")
 melted.df <- melt(df,
                   id.vars = c("depSM", "scan", "nbin",
                               "flag", "timeS", "nbf",
-                              "altM", "prDM"))
+                              "altM", "prDM",
+                              "header.latitude", "header.longitude"
+                              ))
 
 library("ggplot2")
 ggplot(melted.df,
