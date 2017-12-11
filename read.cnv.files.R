@@ -17,6 +17,17 @@ read.cnv.file <- function(filename){ #  filename as character string (e.g. "V003
   
   header.end.position <- grep("*END*", csv.file) #  find string '*END*' in cnv-file that marks the end of the header, thus the beginning of the data table
   
+  # extract longitude and latitude from header - not all SBE csv's contain columns with lon and lat
+  position <- csv.file[grep("GPS_Posn", csv.file)]
+  latdeg <- as.numeric(sub(".*= ([-1234567890]*) ([1234567890.]*)[NS] ([-1234567890]*) ([1234567890.]*)[EW].*", # defines text to be replaced; in this case as regular expression (i.e. could be any thext that fits into this pattern)
+                           "\\1", # defines which of the "packages" that have been defined in the brackets is used as substitute
+                           position))
+  latmin <- as.numeric(sub(".*= ([-1234567890]*) ([1234567890.]*)[NS] ([-1234567890]*) ([1234567890.]*)[EW].*", "\\2", position))
+  latdec <- latdeg+latmin/60
+  longdeg <- as.numeric(sub(".*= ([-1234567890]*) ([1234567890.]*)[NS] ([-1234567890]*) ([1234567890.]*)[EW].*", "\\3", position))
+  longmin <- as.numeric(sub(".*= ([-1234567890]*) ([1234567890.]*)[NS] ([-1234567890]*) ([1234567890.]*)[EW].*", "\\4", position))
+  longdec <- longdeg+longmin/60
+  
   # read data table ...
   data.frame <- read.table(text = csv.file, #  ... from given filname ...
                            na.strings = c(""),
@@ -26,6 +37,11 @@ read.cnv.file <- function(filename){ #  filename as character string (e.g. "V003
                            col.names = header.definition.df$colnames, # ... and using the extracted column definitions as column names for the created data.frame. 
                            row.names = NULL,
                            stringsAsFactors = FALSE) 
+  
+  # add longitude and latiitude from header as new columns
+  data.frame$header.latitude <- latdec
+  data.frame$header.longitude <- longdec
+  
 return(data.frame)} #  the function finally returns the data.frame
 
 ## IDEA: return a list including the data.frame, header.definition.df$longname and some metadata (Date, position, cruise, operator, ...)
