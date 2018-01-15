@@ -49,4 +49,4 @@ return(data.frame)} #  the function finally returns the data.frame
 
 ## FIXME: funky character in 'sigma'-colname may be a problem (David?)
 
-## TODO: include more would-be-NA-value conversions (David can help)
+## TODO: include more would-be-NA-value conversions (David must help)
