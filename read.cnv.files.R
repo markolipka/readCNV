@@ -3,7 +3,6 @@
 ##### v0.2   Marko Lipka   marko.lipka@posteo.de #############
 ##############################################################
 
-## some changes in line 6
 
 read.cnv.file <- function(filename){ #  filename as character string (e.g. "V0033F01.cnv")
   csv.file <- readLines(filename, encoding = "latin1") #  reads the file as large character string
