@@ -7,9 +7,10 @@ read cnv file:
 --------------
 
 ``` r
-df <- read.cnv.file("example data/V0001F01.cnv")
+df.1 <- read.cnv.file("example data/V0001F01.cnv")
+df.2 <- read.cnv.file("example data/P0009F01.cnv")
 
-head(df)
+head(df.1)
 ```
 
     ##   depSM    prDM  c0mS.cm  c1mS.cm  t090C  t190C   sal00   sal11 sbeox0ML.L
@@ -41,7 +42,33 @@ head(df)
     ## 5        54.25613         11.94581
     ## 6        54.25613         11.94581
 
+``` r
+head(df.2)
+```
+
+    ##   depSM    prDM  c0mS.cm   t090C   sal00 sbeox0ML.L    svCM oxsatML.L
+    ## 1  6.00 5.94454 23.47002 14.4042 18.2368    6.44049 1485.34   6.38187
+    ## 2  6.25 6.19658 23.47004 14.4042 18.2368    6.44113 1485.34   6.38188
+    ## 3  6.50 6.44872 23.47012 14.4042 18.2368    6.44125 1485.35   6.38188
+    ## 4  6.75 6.70098 23.47121 14.4062 18.2367    6.44137 1485.36   6.38161
+    ## 5  7.00 6.95274 23.47125 14.4059 18.2369    6.44155 1485.36   6.38165
+    ## 6  7.25 7.20464 23.47110 14.4056 18.2368    6.44189 1485.36   6.38171
+    ##       altM spar flECO.AFL turbWETntu0 nbf latitude longitude  timeS scan
+    ## 1 120.4128    0   0.28637     0.46429   0   44.697   31.4564 15.945  384
+    ## 2 123.2926    0   0.28241     0.46385   0   44.697   31.4564 29.884  718
+    ## 3 131.2332    0   0.27295     0.46274   0   44.697   31.4564 30.678  737
+    ## 4 129.1096    0   0.27584     0.46556   0   44.697   31.4564 31.517  757
+    ## 5 126.9133    0   0.28945     0.46188   0   44.697   31.4564 32.671  785
+    ## 6 135.6922    0   0.28379     0.47353   0   44.697   31.4564 34.233  823
+    ##   sigma.é00 flag nbin header.latitude header.longitude
+    ## 1   13.2020    0  710        44.69705         31.45642
+    ## 2   13.2019    0   17        44.69705         31.45642
+    ## 3   13.2020    0   19        44.69705         31.45642
+    ## 4   13.2016    0   23        44.69705         31.45642
+    ## 5   13.2017    0   34        44.69705         31.45642
+    ## 6   13.2018    0   36        44.69705         31.45642
+
 Plot
 ----
 
-![](README_files/figure-markdown_github-ascii_identifiers/pressure-1.png)
+![](README_files/figure-markdown_github-ascii_identifiers/pressure-1.png)![](README_files/figure-markdown_github-ascii_identifiers/pressure-2.png)

@@ -13,9 +13,11 @@ source("read.cnv.files.R")
 ## read cnv file:
 
 ```{r cars}
-df <- read.cnv.file("example data/V0001F01.cnv")
+df.1 <- read.cnv.file("example data/V0001F01.cnv")
+df.2 <- read.cnv.file("example data/P0009F01.cnv")
 
-head(df)
+head(df.1)
+head(df.2)
 ```
 
 ## Plot
@@ -23,15 +25,32 @@ head(df)
 
 ```{r pressure, echo=FALSE, fig.width=12, fig.height=4}
 library("reshape2")
-melted.df <- melt(df,
+melted.df.1 <- melt(df.1,
                   id.vars = c("depSM", "scan", "nbin",
                               "flag", "timeS", "nbf",
                               "altM", "prDM",
                               "header.latitude", "header.longitude"
                               ))
 
+melted.df.2 <- melt(df.2,
+                  id.vars = c("depSM", "scan", "nbin",
+                              "flag", "timeS", "nbf",
+                              "altM", "prDM", "spar",
+                              "header.latitude", "header.longitude",
+                              "latitude", "longitude"
+                              ))
+
 library("ggplot2")
-ggplot(melted.df,
+ggplot(melted.df.1,
+       aes(x = depSM, y = value)) +
+    geom_line() +
+    scale_x_reverse() +
+    coord_flip() +
+    facet_grid(.~variable, scales = "free") +
+    theme_bw() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+ggplot(melted.df.2,
        aes(x = depSM, y = value)) +
     geom_line() +
     scale_x_reverse() +
