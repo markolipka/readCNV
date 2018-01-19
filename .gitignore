@@ -2,6 +2,6 @@
 .Rhistory
 .RData
 .Ruserdata
-ReadCNV.Rproj
+*.Rproj
 .DS_Store
-example.html
+*.html
