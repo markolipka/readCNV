@@ -1,6 +1,6 @@
 ##############################################################
 #### R function to read SBE CTD cnv-files into data.frame ####
-##### v0.2   Marko Lipka   marko.lipka@posteo.de #############
+##### v0.2   Marko Lipka   marko.lipka@io-warnemuende.de #####
 ##############################################################
 
 
