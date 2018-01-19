@@ -1,10 +1,12 @@
-readCNV example
+read SBE CTD cnv-files into data.frame
 ================
 Marko Lipka
 12/2/2017
 
-read cnv file:
---------------
+*read.cnv.file()* function takes a filename of a .cnv file as argument and returns a data.frame.
+
+Example
+=======
 
 ``` r
 df.1 <- read.cnv.file("example data/V0001F01.cnv")

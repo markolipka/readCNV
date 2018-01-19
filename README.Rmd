@@ -1,9 +1,11 @@
 ---
-title: "readCNV example"
+title: "read SBE CTD cnv-files into data.frame"
 author: "Marko Lipka"
 date: "12/2/2017"
 output: github_document
 ---
+
+*read.cnv.file()* function takes a filename of a .cnv file as argument and returns a data.frame.
 
 ```{r setup, include=FALSE}
 library(knitr)
@@ -11,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 source("read.cnv.files.R")
 ```
 
-## read cnv file:
+#Example
 
 ```{r cars}
 df.1 <- read.cnv.file("example data/V0001F01.cnv")
