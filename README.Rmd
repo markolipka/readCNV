@@ -5,9 +5,8 @@ date: "12/2/2017"
 output: github_document
 ---
 
-Helo
-
 ```{r setup, include=FALSE}
+library(knitr)
 knitr::opts_chunk$set(echo = TRUE)
 source("read.cnv.files.R")
 ```
@@ -18,11 +17,11 @@ source("read.cnv.files.R")
 df.1 <- read.cnv.file("example data/V0001F01.cnv")
 df.2 <- read.cnv.file("example data/P0009F01.cnv")
 
-head(df.1)
-head(df.2)
+kable(head(df.1))
+kable(head(df.2))
 ```
 
-## Plot
+## Plots
 
 
 ```{r pressure, echo=FALSE, fig.width=12, fig.height=4}
