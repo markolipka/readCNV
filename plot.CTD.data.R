@@ -19,9 +19,13 @@ plot.CTD.data <- function(CTD.data){
         #"water depth parameter of choice is the first one that matches 'potential.depvars':
         melted.df$depth <- melted.df[, names(melted.df)[names(melted.df) %in% potential.depvars][1]]
         
+        if(nrow(df) < 50){
+            geom_case <- geom_point()
+        }else{geom_case <- geom_line()} 
+        
         ggplot(melted.df,
                aes(x = depth, y = value)) +
-            geom_line() +
+            geom_case +
             scale_x_reverse() +
             coord_flip() +
             facet_grid(.~variable, scales = "free") +
