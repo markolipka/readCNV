@@ -34,19 +34,3 @@ plot.CTD.data <- function(CTD.data){
 
 
 
-# ### Run through all cnv-files in the Dropbox directory and try to plot them:
-# source("read.cnv.files.R")
-# 
-# files <- list.files(path = "~/Dropbox/", pattern = "\\.cnv$", recursive = T, ignore.case = T)
-# 
-# for(file in files){
-#     cat(paste(file, " ... \n"))
-#     file.abs.path <- paste0("~/Dropbox/", file)
-#     file.path.sub <- gsub("/", "_", file.abs.path)
-#     import <- read.cnv.file(file.abs.path)
-#     plot.CTD.data(import)
-#     ggsave(filename = paste0(file.path.sub, ".png"),
-#            path = "~/cnv_test", width = 12, height = 4)
-#     cat("... done\n")
-# }
-
