@@ -2,11 +2,13 @@
 source("read.cnv.files.R")
 source("plot.CTD.data.R")
 
-path.to.start <- "~/ownCloud/"
+path.to.start <- "~/"
 
-files <- list.files(path = path.to.start, pattern = "\\.cnv$", recursive = T, ignore.case = T)
+files <- list.files(path = path.to.start,
+                    pattern = "\\.cnv$",
+                    recursive = T, ignore.case = T)
 
-for(file in files){
+for(file in files[!grepl("Library", files)]){
     cat(paste(file, " ... \n"))
     file.abs.path <- paste0(path.to.start, file)
     file.path.sub <- gsub("/", "_", file.abs.path)
