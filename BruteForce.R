@@ -2,11 +2,13 @@
 source("read.cnv.files.R")
 source("plot.CTD.data.R")
 
-files <- list.files(path = "~/ownCloud/", pattern = "\\.cnv$", recursive = T, ignore.case = T)
+path.to.start <- "~/ownCloud/"
+
+files <- list.files(path = path.to.start, pattern = "\\.cnv$", recursive = T, ignore.case = T)
 
 for(file in files){
     cat(paste(file, " ... \n"))
-    file.abs.path <- paste0("~/ownCloud/", file)
+    file.abs.path <- paste0(path.to.start, file)
     file.path.sub <- gsub("/", "_", file.abs.path)
     import <- read.cnv.file(file.abs.path)
     plot.CTD.data(import)
