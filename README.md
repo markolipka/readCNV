@@ -330,12 +330,12 @@ pander(head(Ex1$data))
 pander(Ex1$meta)
 ```
 
--   **bottom.depth**: 18.54
 -   **cruise**: EMB-100
 -   **station**: 0001
 -   **cast**: 0001
 -   **series**: Kiki
 -   **name**: STOL aus .eMission.
+-   **bottom.depth**: 18.54
 -   **timestamp**: 09:18:13 09-APR-15
 
 <!-- end of list -->
@@ -594,16 +594,26 @@ pander(head(Ex2$data))
 pander(Ex2$meta)
 ```
 
--   **bottom.depth**: 153.2
 -   **cruise**:
 -   **station**: 0009
 -   **cast**: 0009
 -   **series**: Krueger
 -   **name**: MSM33/28 aus .eMission.
+-   **bottom.depth**: 153.2
 -   **timestamp**: 03:41:07 12-Nov-13
 
 <!-- end of list -->
 Plots
 -----
 
-![](README_files/figure-markdown_github-ascii_identifiers/pressure-1.png)![](README_files/figure-markdown_github-ascii_identifiers/pressure-2.png)
+``` r
+plot.CTD.data(Ex1)
+```
+
+![](README_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-1-1.png)
+
+``` r
+plot.CTD.data(Ex2)
+```
+
+![](README_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-1-2.png)
