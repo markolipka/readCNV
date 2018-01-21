@@ -9,18 +9,22 @@ output: github_document
 
 ```{r setup, include=FALSE}
 library(knitr)
+library(pander)
 knitr::opts_chunk$set(echo = TRUE)
 source("read.cnv.files.R")
 ```
 
 #Example
 
-```{r cars}
-df.1 <- read.cnv.file("example data/V0001F01.cnv")
-df.2 <- read.cnv.file("example data/P0009F01.cnv")
+```{r Examples}
+Ex1 <- read.cnv.file("example data/V0001F01.cnv")
+Ex2 <- read.cnv.file("example data/P0009F01.cnv")
 
-kable(head(df.1))
-kable(head(df.2))
+pander(head(Ex1$data))
+pander(Ex1$meta)
+
+pander(head(Ex2$data))
+pander(Ex2$meta)
 ```
 
 ## Plots
@@ -28,14 +32,14 @@ kable(head(df.2))
 
 ```{r pressure, echo=FALSE, fig.width=12, fig.height=4}
 library("reshape2")
-melted.df.1 <- melt(df.1,
+melted.df.1 <- melt(Ex1$data,
                   id.vars = c("depSM", "scan", "nbin",
                               "flag", "timeS", "nbf",
                               "altM", "prDM",
                               "header.latitude", "header.longitude"
                               ))
 
-melted.df.2 <- melt(df.2,
+melted.df.2 <- melt(Ex2$data,
                   id.vars = c("depSM", "scan", "nbin",
                               "flag", "timeS", "nbf",
                               "altM", "prDM", "spar",

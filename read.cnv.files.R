@@ -8,9 +8,15 @@ read.cnv.file <- function(filename){ #  filename as character string (e.g. "V003
     cnv.file <- readLines(filename, encoding = "latin1") #  reads the file as large character string
     # substitute terrible would-be-NA-values with less terrible would-be-NA-values:
     bad.flag <- sub(".*= (.*)$", "\\1", cnv.file[grep("bad_flag", cnv.file)])
-    cnv.file <- gsub(bad.flag, " NA ", cnv.file) 
-    #cnv.file <- gsub("-9.990e-29", " NA ", cnv.file) 
-    #cnv.file <- gsub("-9.9900e-29", " NA ", cnv.file)
+    cnv.file <- gsub(bad.flag, " NA ", cnv.file)
+    
+    cruise       <- sub(".*=(.*)", "\\1",cnv.file[grep("ReiseNr", cnv.file)])
+    station      <- sub(".*=(.*)", "\\1",cnv.file[grep("StationNr", cnv.file)])
+    cast         <- sub(".*=(.*)", "\\1",cnv.file[grep("EinsatzNr", cnv.file)])
+    serie        <- sub(".*=(.*)", "\\1",cnv.file[grep("SerieNr", cnv.file)])
+    name         <- sub(".*=(.*)", "\\1",cnv.file[grep("StatBez", cnv.file)])
+    timestamp    <- sub(".*=(.*)", "\\1",cnv.file[grep("Startzeit", cnv.file)])
+    bottom.depth <- sub(".* ([0-9.]*) .*$", "\\1", cnv.file[grep("Echolote", cnv.file)])
     
     header.definition.list <- as.list(cnv.file)[grep("# name", cnv.file)] #  find column definitions in the header, store as list
     header.definition.df   <- data.frame( #  write column names and description in data.frame
@@ -44,7 +50,14 @@ read.cnv.file <- function(filename){ #  filename as character string (e.g. "V003
         data.frame$header.latitude <- latdec
         data.frame$header.longitude <- longdec
         
-        return(data.frame)} #  the function finally returns the data.frame
+        return(list("data" = data.frame, # the function finally returns the data.frame ...
+                    meta = list("bottom.depth" = bottom.depth,
+                                "cruise" = cruise,
+                                "station" = station,     
+                                "cast" = cast,        
+                                "series" = serie,       
+                                "name" = name,        
+                                "timestamp" = timestamp)))} #  ... and the metadata
     else{warning("cnv-file seems to contain no measurement data!")
         return(NULL)}}
     ## IDEA: return a list including the data.frame, header.definition.df$longname and some metadata (Date, position, cruise, operator, ...)
