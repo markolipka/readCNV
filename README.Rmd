@@ -1,6 +1,6 @@
 ---
 title: "read SBE CTD cnv-files into data.frame"
-author: "Marko Lipka"
+author: "Marko Lipka, David Kaiser"
 date: "12/2/2017"
 output: github_document
 ---

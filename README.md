@@ -1,6 +1,6 @@
 read SBE CTD cnv-files into data.frame
 ================
-Marko Lipka
+Marko Lipka, David Kaiser
 12/2/2017
 
 *read.cnv.file()* function takes a filename of a .cnv file as argument and returns a data.frame.
@@ -610,10 +610,10 @@ Plots
 plot.CTD.data(Ex1)
 ```
 
-![](README_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-1-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-1-1.png)
 
 ``` r
 plot.CTD.data(Ex2)
 ```
 
-![](README_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-1-2.png)
+![](README_files/figure-markdown_github/unnamed-chunk-1-2.png)
