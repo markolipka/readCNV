@@ -1,38 +1,54 @@
 ---
-title: "read SBE CTD cnv-files into data.frame"
+title: "read and plot SBE CTD cnv-files"
 author: "Marko Lipka, David Kaiser"
-date: "12/2/2017"
+date: "`r lubridate::today()`"
 output: github_document
 ---
 
-*read.cnv.file()* function takes a filename of a .cnv file as argument and returns a data.frame.
+`read.cnv.file()` function takes a filename of a .cnv file as argument and returns a data.frame.
+
+`plot.CTD.data()` function 
+
+- takes the output of `read.cnv.file()` and returns a facetted ggplot.
+- optional arguments:
+    + depvar: character (vector) of parameter(s) that should be used as depth axis. First match in parameter names will be used if multiple parameters are defined.
+    + not2plot: character (vector) of parameter(s) that should not be plotted. default is a list of common metadata parameters like "*scan*", "*nbin*", "*flag*", "*latitude*", ...
+
+
 
 ```{r setup, include=FALSE}
 library(knitr)
 library(pander)
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, fig.width=15, fig.height=4)
 source("read.cnv.files.R")
 source("plot.CTD.data.R")
 ```
 
-#Example
+# Examples
 
-```{r Examples}
+## V0001F01.cnv
+
+```{r Example1}
 Ex1 <- read.cnv.file("example data/V0001F01.cnv")
-Ex2 <- read.cnv.file("example data/P0009F01.cnv")
 
-pander(head(Ex1$data))
+knitr::kable(head(Ex1$data))
 pander(Ex1$meta)
 
-pander(head(Ex2$data))
-pander(Ex2$meta)
+plot.CTD.data(Ex1)
 ```
 
-## Plots
+## P0009F01.cnv
 
-```{r, fig.width=12, fig.height=4}
-plot.CTD.data(Ex1)
+```{r Example2}
+Ex2 <- read.cnv.file("example data/P0009F01.cnv")
+
+knitr::kable(head(Ex2$data))
+pander(Ex2$meta)
+
 plot.CTD.data(Ex2)
+plot.CTD.data(Ex2, depvar = "prDM")
+plot.CTD.data(Ex2, depvar = "sigma.é00", not2plot = c("flag", "nbin", "nbf", "upoly0", "upoly1"))
+plot.CTD.data(Ex2, not2plot = "par")
 ```
 
 

@@ -1,330 +1,40 @@
-read SBE CTD cnv-files into data.frame
+read and plot SBE CTD cnv-files
 ================
 Marko Lipka, David Kaiser
-12/2/2017
+2021-03-20
 
-*read.cnv.file()* function takes a filename of a .cnv file as argument and returns a data.frame.
+`read.cnv.file()` function takes a filename of a .cnv file as argument
+and returns a data.frame.
 
-Example
-=======
+`plot.CTD.data()` function
+
+-   takes the output of `read.cnv.file()` and returns a facetted ggplot.
+-   optional arguments:
+    -   depvar: character (vector) of parameter(s) that should be used
+        as depth axis. First match in parameter names will be used if
+        multiple parameters are defined.
+    -   not2plot: character (vector) of parameter(s) that should not be
+        plotted. default is a list of common metadata parameters like
+        “*scan*”, “*nbin*”, “*flag*”, “*latitude*”, …
+
+# Examples
+
+## V0001F01.cnv
 
 ``` r
 Ex1 <- read.cnv.file("example data/V0001F01.cnv")
-Ex2 <- read.cnv.file("example data/P0009F01.cnv")
 
-pander(head(Ex1$data))
+knitr::kable(head(Ex1$data))
 ```
 
-<table>
-<caption>Table continues below</caption>
-<colgroup>
-<col width="10%" />
-<col width="10%" />
-<col width="12%" />
-<col width="12%" />
-<col width="10%" />
-<col width="10%" />
-<col width="10%" />
-<col width="10%" />
-<col width="15%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="center">depSM</th>
-<th align="center">prDM</th>
-<th align="center">c0mS.cm</th>
-<th align="center">c1mS.cm</th>
-<th align="center">t090C</th>
-<th align="center">t190C</th>
-<th align="center">sal00</th>
-<th align="center">sal11</th>
-<th align="center">sbeox0ML.L</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="center">1.5</td>
-<td align="center">1.36</td>
-<td align="center">14.16</td>
-<td align="center">14.16</td>
-<td align="center">6.127</td>
-<td align="center">6.125</td>
-<td align="center">13.21</td>
-<td align="center">13.21</td>
-<td align="center">8.654</td>
-</tr>
-<tr class="even">
-<td align="center">1.75</td>
-<td align="center">1.613</td>
-<td align="center">14.16</td>
-<td align="center">14.16</td>
-<td align="center">6.125</td>
-<td align="center">6.122</td>
-<td align="center">13.21</td>
-<td align="center">13.21</td>
-<td align="center">8.655</td>
-</tr>
-<tr class="odd">
-<td align="center">2</td>
-<td align="center">1.865</td>
-<td align="center">14.16</td>
-<td align="center">14.16</td>
-<td align="center">6.124</td>
-<td align="center">6.121</td>
-<td align="center">13.21</td>
-<td align="center">13.21</td>
-<td align="center">8.654</td>
-</tr>
-<tr class="even">
-<td align="center">2.25</td>
-<td align="center">2.117</td>
-<td align="center">14.16</td>
-<td align="center">14.16</td>
-<td align="center">6.123</td>
-<td align="center">6.121</td>
-<td align="center">13.21</td>
-<td align="center">13.21</td>
-<td align="center">8.655</td>
-</tr>
-<tr class="odd">
-<td align="center">2.5</td>
-<td align="center">2.37</td>
-<td align="center">14.17</td>
-<td align="center">14.16</td>
-<td align="center">6.123</td>
-<td align="center">6.121</td>
-<td align="center">13.21</td>
-<td align="center">13.21</td>
-<td align="center">8.656</td>
-</tr>
-<tr class="even">
-<td align="center">2.75</td>
-<td align="center">2.621</td>
-<td align="center">14.16</td>
-<td align="center">14.16</td>
-<td align="center">6.122</td>
-<td align="center">6.121</td>
-<td align="center">13.21</td>
-<td align="center">13.21</td>
-<td align="center">8.652</td>
-</tr>
-</tbody>
-</table>
-
-<table>
-<caption>Table continues below</caption>
-<colgroup>
-<col width="16%" />
-<col width="8%" />
-<col width="15%" />
-<col width="10%" />
-<col width="10%" />
-<col width="8%" />
-<col width="15%" />
-<col width="16%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="center">sbeox1ML.L</th>
-<th align="center">svCM</th>
-<th align="center">oxsatML.L</th>
-<th align="center">altM</th>
-<th align="center">par</th>
-<th align="center">spar</th>
-<th align="center">flECO.AFL</th>
-<th align="center">turbWETntu0</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="center">8.746</td>
-<td align="center">1448</td>
-<td align="center">7.957</td>
-<td align="center">17.55</td>
-<td align="center">402.9</td>
-<td align="center">1012</td>
-<td align="center">1.401</td>
-<td align="center">0.2925</td>
-</tr>
-<tr class="even">
-<td align="center">8.727</td>
-<td align="center">1448</td>
-<td align="center">7.957</td>
-<td align="center">16.84</td>
-<td align="center">386.3</td>
-<td align="center">1242</td>
-<td align="center">1.254</td>
-<td align="center">0.2913</td>
-</tr>
-<tr class="odd">
-<td align="center">8.735</td>
-<td align="center">1448</td>
-<td align="center">7.957</td>
-<td align="center">16.98</td>
-<td align="center">365.8</td>
-<td align="center">1248</td>
-<td align="center">1.32</td>
-<td align="center">0.2906</td>
-</tr>
-<tr class="even">
-<td align="center">8.746</td>
-<td align="center">1448</td>
-<td align="center">7.957</td>
-<td align="center">16.76</td>
-<td align="center">336.8</td>
-<td align="center">1247</td>
-<td align="center">1.308</td>
-<td align="center">0.2924</td>
-</tr>
-<tr class="odd">
-<td align="center">8.723</td>
-<td align="center">1448</td>
-<td align="center">7.957</td>
-<td align="center">16.53</td>
-<td align="center">306.9</td>
-<td align="center">1250</td>
-<td align="center">1.316</td>
-<td align="center">0.2939</td>
-</tr>
-<tr class="even">
-<td align="center">8.731</td>
-<td align="center">1448</td>
-<td align="center">7.957</td>
-<td align="center">16.26</td>
-<td align="center">282.6</td>
-<td align="center">1245</td>
-<td align="center">1.392</td>
-<td align="center">0.2873</td>
-</tr>
-</tbody>
-</table>
-
-<table style="width:94%;">
-<caption>Table continues below</caption>
-<colgroup>
-<col width="8%" />
-<col width="13%" />
-<col width="13%" />
-<col width="12%" />
-<col width="9%" />
-<col width="16%" />
-<col width="9%" />
-<col width="9%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="center">nbf</th>
-<th align="center">upoly0</th>
-<th align="center">upoly1</th>
-<th align="center">timeS</th>
-<th align="center">scan</th>
-<th align="center">sigma.é00</th>
-<th align="center">flag</th>
-<th align="center">nbin</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="center">0</td>
-<td align="center">0.04206</td>
-<td align="center">0.04201</td>
-<td align="center">-3.638</td>
-<td align="center">-86</td>
-<td align="center">10.37</td>
-<td align="center">0</td>
-<td align="center">92</td>
-</tr>
-<tr class="even">
-<td align="center">0</td>
-<td align="center">0.04205</td>
-<td align="center">0.04213</td>
-<td align="center">14.12</td>
-<td align="center">340</td>
-<td align="center">10.37</td>
-<td align="center">0</td>
-<td align="center">95</td>
-</tr>
-<tr class="odd">
-<td align="center">0</td>
-<td align="center">0.04192</td>
-<td align="center">0.04212</td>
-<td align="center">17.18</td>
-<td align="center">413</td>
-<td align="center">10.37</td>
-<td align="center">0</td>
-<td align="center">68</td>
-</tr>
-<tr class="even">
-<td align="center">0</td>
-<td align="center">0.04172</td>
-<td align="center">0.04213</td>
-<td align="center">18.94</td>
-<td align="center">456</td>
-<td align="center">10.37</td>
-<td align="center">0</td>
-<td align="center">34</td>
-</tr>
-<tr class="odd">
-<td align="center">0</td>
-<td align="center">0.04189</td>
-<td align="center">0.04196</td>
-<td align="center">20.41</td>
-<td align="center">491</td>
-<td align="center">10.38</td>
-<td align="center">0</td>
-<td align="center">31</td>
-</tr>
-<tr class="even">
-<td align="center">0</td>
-<td align="center">0.04177</td>
-<td align="center">0.04188</td>
-<td align="center">21.85</td>
-<td align="center">525</td>
-<td align="center">10.37</td>
-<td align="center">0</td>
-<td align="center">41</td>
-</tr>
-</tbody>
-</table>
-
-<table style="width:50%;">
-<colgroup>
-<col width="25%" />
-<col width="25%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="center">header.latitude</th>
-<th align="center">header.longitude</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="center">54.26</td>
-<td align="center">11.95</td>
-</tr>
-<tr class="even">
-<td align="center">54.26</td>
-<td align="center">11.95</td>
-</tr>
-<tr class="odd">
-<td align="center">54.26</td>
-<td align="center">11.95</td>
-</tr>
-<tr class="even">
-<td align="center">54.26</td>
-<td align="center">11.95</td>
-</tr>
-<tr class="odd">
-<td align="center">54.26</td>
-<td align="center">11.95</td>
-</tr>
-<tr class="even">
-<td align="center">54.26</td>
-<td align="center">11.95</td>
-</tr>
-</tbody>
-</table>
+| depSM |    prDM |  c0mS.cm |  c1mS.cm |  t090C |  t190C |   sal00 |   sal11 | sbeox0ML.L | sbeox1ML.L |    svCM | oxsatML.L |     altM |    par |   spar | flECO.AFL | turbWETntu0 | nbf |  upoly0 |  upoly1 |  timeS | scan | sigma.é00 | flag | nbin | header.latitude | header.longitude |
+|------:|--------:|---------:|---------:|-------:|-------:|--------:|--------:|-----------:|-----------:|--------:|----------:|---------:|-------:|-------:|----------:|------------:|----:|--------:|--------:|-------:|-----:|----------:|-----:|-----:|----------------:|-----------------:|
+|  1.50 | 1.36001 | 14.16115 | 14.16036 | 6.1272 | 6.1251 | 13.2087 | 13.2088 |    8.65394 |    8.74601 | 1447.91 |   7.95670 | 17.55465 | 402.87 | 1012.2 |    1.4015 |     0.29254 |   0 | 0.04206 | 0.04201 | -3.638 |  -86 |   10.3704 |    0 |   92 |        54.25613 |         11.94581 |
+|  1.75 | 1.61264 | 14.16280 | 14.16364 | 6.1245 | 6.1219 | 13.2115 | 13.2133 |    8.65493 |    8.72731 | 1447.90 |   7.95708 | 16.83636 | 386.34 | 1241.7 |    1.2540 |     0.29134 |   0 | 0.04205 | 0.04213 | 14.117 |  340 |   10.3727 |    0 |   95 |        54.25613 |         11.94581 |
+|  2.00 | 1.86478 | 14.16379 | 14.16305 | 6.1236 | 6.1211 | 13.2128 | 13.2130 |    8.65435 |    8.73503 | 1447.91 |   7.95719 | 16.97811 | 365.78 | 1247.6 |    1.3204 |     0.29062 |   0 | 0.04192 | 0.04212 | 17.178 |  413 |   10.3738 |    0 |   68 |        54.25613 |         11.94581 |
+|  2.25 | 2.11683 | 14.16334 | 14.16383 | 6.1227 | 6.1207 | 13.2126 | 13.2138 |    8.65487 |    8.74630 | 1447.91 |   7.95737 | 16.75866 | 336.83 | 1246.8 |    1.3079 |     0.29237 |   0 | 0.04172 | 0.04213 | 18.940 |  456 |   10.3737 |    0 |   34 |        54.25613 |         11.94581 |
+|  2.50 | 2.36962 | 14.16532 | 14.16366 | 6.1229 | 6.1206 | 13.2145 | 13.2137 |    8.65615 |    8.72256 | 1447.91 |   7.95724 | 16.53253 | 306.92 | 1250.1 |    1.3161 |     0.29388 |   0 | 0.04189 | 0.04196 | 20.410 |  491 |   10.3752 |    0 |   31 |        54.25613 |         11.94581 |
+|  2.75 | 2.62119 | 14.16302 | 14.16275 | 6.1224 | 6.1208 | 13.2122 | 13.2126 |    8.65235 |    8.73113 | 1447.91 |   7.95746 | 16.25545 | 282.55 | 1245.4 |    1.3918 |     0.28734 |   0 | 0.04177 | 0.04188 | 21.853 |  525 |   10.3735 |    0 |   41 |        54.25613 |         11.94581 |
 
 ``` r
 pander(Ex1$meta)
@@ -339,256 +49,29 @@ pander(Ex1$meta)
 -   **timestamp**: 09:18:13 09-APR-15
 
 <!-- end of list -->
+
 ``` r
-pander(head(Ex2$data))
+plot.CTD.data(Ex1)
 ```
 
-<table style="width:100%;">
-<caption>Table continues below</caption>
-<colgroup>
-<col width="10%" />
-<col width="10%" />
-<col width="13%" />
-<col width="10%" />
-<col width="10%" />
-<col width="17%" />
-<col width="9%" />
-<col width="15%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="center">depSM</th>
-<th align="center">prDM</th>
-<th align="center">c0mS.cm</th>
-<th align="center">t090C</th>
-<th align="center">sal00</th>
-<th align="center">sbeox0ML.L</th>
-<th align="center">svCM</th>
-<th align="center">oxsatML.L</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="center">6</td>
-<td align="center">5.945</td>
-<td align="center">23.47</td>
-<td align="center">14.4</td>
-<td align="center">18.24</td>
-<td align="center">6.44</td>
-<td align="center">1485</td>
-<td align="center">6.382</td>
-</tr>
-<tr class="even">
-<td align="center">6.25</td>
-<td align="center">6.197</td>
-<td align="center">23.47</td>
-<td align="center">14.4</td>
-<td align="center">18.24</td>
-<td align="center">6.441</td>
-<td align="center">1485</td>
-<td align="center">6.382</td>
-</tr>
-<tr class="odd">
-<td align="center">6.5</td>
-<td align="center">6.449</td>
-<td align="center">23.47</td>
-<td align="center">14.4</td>
-<td align="center">18.24</td>
-<td align="center">6.441</td>
-<td align="center">1485</td>
-<td align="center">6.382</td>
-</tr>
-<tr class="even">
-<td align="center">6.75</td>
-<td align="center">6.701</td>
-<td align="center">23.47</td>
-<td align="center">14.41</td>
-<td align="center">18.24</td>
-<td align="center">6.441</td>
-<td align="center">1485</td>
-<td align="center">6.382</td>
-</tr>
-<tr class="odd">
-<td align="center">7</td>
-<td align="center">6.953</td>
-<td align="center">23.47</td>
-<td align="center">14.41</td>
-<td align="center">18.24</td>
-<td align="center">6.442</td>
-<td align="center">1485</td>
-<td align="center">6.382</td>
-</tr>
-<tr class="even">
-<td align="center">7.25</td>
-<td align="center">7.205</td>
-<td align="center">23.47</td>
-<td align="center">14.41</td>
-<td align="center">18.24</td>
-<td align="center">6.442</td>
-<td align="center">1485</td>
-<td align="center">6.382</td>
-</tr>
-</tbody>
-</table>
+![](README_files/figure-gfm/Example1-1.png)<!-- -->
 
-<table>
-<caption>Table continues below</caption>
-<colgroup>
-<col width="10%" />
-<col width="9%" />
-<col width="15%" />
-<col width="18%" />
-<col width="7%" />
-<col width="14%" />
-<col width="15%" />
-<col width="9%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="center">altM</th>
-<th align="center">spar</th>
-<th align="center">flECO.AFL</th>
-<th align="center">turbWETntu0</th>
-<th align="center">nbf</th>
-<th align="center">latitude</th>
-<th align="center">longitude</th>
-<th align="center">timeS</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="center">120.4</td>
-<td align="center">0</td>
-<td align="center">0.2864</td>
-<td align="center">0.4643</td>
-<td align="center">0</td>
-<td align="center">44.7</td>
-<td align="center">31.46</td>
-<td align="center">15.95</td>
-</tr>
-<tr class="even">
-<td align="center">123.3</td>
-<td align="center">0</td>
-<td align="center">0.2824</td>
-<td align="center">0.4638</td>
-<td align="center">0</td>
-<td align="center">44.7</td>
-<td align="center">31.46</td>
-<td align="center">29.88</td>
-</tr>
-<tr class="odd">
-<td align="center">131.2</td>
-<td align="center">0</td>
-<td align="center">0.273</td>
-<td align="center">0.4627</td>
-<td align="center">0</td>
-<td align="center">44.7</td>
-<td align="center">31.46</td>
-<td align="center">30.68</td>
-</tr>
-<tr class="even">
-<td align="center">129.1</td>
-<td align="center">0</td>
-<td align="center">0.2758</td>
-<td align="center">0.4656</td>
-<td align="center">0</td>
-<td align="center">44.7</td>
-<td align="center">31.46</td>
-<td align="center">31.52</td>
-</tr>
-<tr class="odd">
-<td align="center">126.9</td>
-<td align="center">0</td>
-<td align="center">0.2894</td>
-<td align="center">0.4619</td>
-<td align="center">0</td>
-<td align="center">44.7</td>
-<td align="center">31.46</td>
-<td align="center">32.67</td>
-</tr>
-<tr class="even">
-<td align="center">135.7</td>
-<td align="center">0</td>
-<td align="center">0.2838</td>
-<td align="center">0.4735</td>
-<td align="center">0</td>
-<td align="center">44.7</td>
-<td align="center">31.46</td>
-<td align="center">34.23</td>
-</tr>
-</tbody>
-</table>
+## P0009F01.cnv
 
-<table style="width:96%;">
-<colgroup>
-<col width="9%" />
-<col width="16%" />
-<col width="9%" />
-<col width="9%" />
-<col width="25%" />
-<col width="25%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="center">scan</th>
-<th align="center">sigma.é00</th>
-<th align="center">flag</th>
-<th align="center">nbin</th>
-<th align="center">header.latitude</th>
-<th align="center">header.longitude</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="center">384</td>
-<td align="center">13.2</td>
-<td align="center">0</td>
-<td align="center">710</td>
-<td align="center">44.7</td>
-<td align="center">31.46</td>
-</tr>
-<tr class="even">
-<td align="center">718</td>
-<td align="center">13.2</td>
-<td align="center">0</td>
-<td align="center">17</td>
-<td align="center">44.7</td>
-<td align="center">31.46</td>
-</tr>
-<tr class="odd">
-<td align="center">737</td>
-<td align="center">13.2</td>
-<td align="center">0</td>
-<td align="center">19</td>
-<td align="center">44.7</td>
-<td align="center">31.46</td>
-</tr>
-<tr class="even">
-<td align="center">757</td>
-<td align="center">13.2</td>
-<td align="center">0</td>
-<td align="center">23</td>
-<td align="center">44.7</td>
-<td align="center">31.46</td>
-</tr>
-<tr class="odd">
-<td align="center">785</td>
-<td align="center">13.2</td>
-<td align="center">0</td>
-<td align="center">34</td>
-<td align="center">44.7</td>
-<td align="center">31.46</td>
-</tr>
-<tr class="even">
-<td align="center">823</td>
-<td align="center">13.2</td>
-<td align="center">0</td>
-<td align="center">36</td>
-<td align="center">44.7</td>
-<td align="center">31.46</td>
-</tr>
-</tbody>
-</table>
+``` r
+Ex2 <- read.cnv.file("example data/P0009F01.cnv")
+
+knitr::kable(head(Ex2$data))
+```
+
+| depSM |    prDM |  c0mS.cm |   t090C |   sal00 | sbeox0ML.L |    svCM | oxsatML.L |     altM | spar | flECO.AFL | turbWETntu0 | nbf | latitude | longitude |  timeS | scan | sigma.é00 | flag | nbin | header.latitude | header.longitude |
+|------:|--------:|---------:|--------:|--------:|-----------:|--------:|----------:|---------:|-----:|----------:|------------:|----:|---------:|----------:|-------:|-----:|----------:|-----:|-----:|----------------:|-----------------:|
+|  6.00 | 5.94454 | 23.47002 | 14.4042 | 18.2368 |    6.44049 | 1485.34 |   6.38187 | 120.4128 |    0 |   0.28637 |     0.46429 |   0 |   44.697 |   31.4564 | 15.945 |  384 |   13.2020 |    0 |  710 |        44.69705 |         31.45642 |
+|  6.25 | 6.19658 | 23.47004 | 14.4042 | 18.2368 |    6.44113 | 1485.34 |   6.38188 | 123.2926 |    0 |   0.28241 |     0.46385 |   0 |   44.697 |   31.4564 | 29.884 |  718 |   13.2019 |    0 |   17 |        44.69705 |         31.45642 |
+|  6.50 | 6.44872 | 23.47012 | 14.4042 | 18.2368 |    6.44125 | 1485.35 |   6.38188 | 131.2332 |    0 |   0.27295 |     0.46274 |   0 |   44.697 |   31.4564 | 30.678 |  737 |   13.2020 |    0 |   19 |        44.69705 |         31.45642 |
+|  6.75 | 6.70098 | 23.47121 | 14.4062 | 18.2367 |    6.44137 | 1485.36 |   6.38161 | 129.1096 |    0 |   0.27584 |     0.46556 |   0 |   44.697 |   31.4564 | 31.517 |  757 |   13.2016 |    0 |   23 |        44.69705 |         31.45642 |
+|  7.00 | 6.95274 | 23.47125 | 14.4059 | 18.2369 |    6.44155 | 1485.36 |   6.38165 | 126.9133 |    0 |   0.28945 |     0.46188 |   0 |   44.697 |   31.4564 | 32.671 |  785 |   13.2017 |    0 |   34 |        44.69705 |         31.45642 |
+|  7.25 | 7.20464 | 23.47110 | 14.4056 | 18.2368 |    6.44189 | 1485.36 |   6.38171 | 135.6922 |    0 |   0.28379 |     0.47353 |   0 |   44.697 |   31.4564 | 34.233 |  823 |   13.2018 |    0 |   36 |        44.69705 |         31.45642 |
 
 ``` r
 pander(Ex2$meta)
@@ -603,17 +86,27 @@ pander(Ex2$meta)
 -   **timestamp**: 03:41:07 12-Nov-13
 
 <!-- end of list -->
-Plots
------
-
-``` r
-plot.CTD.data(Ex1)
-```
-
-![](README_files/figure-markdown_github/unnamed-chunk-1-1.png)
 
 ``` r
 plot.CTD.data(Ex2)
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-1-2.png)
+![](README_files/figure-gfm/Example2-1.png)<!-- -->
+
+``` r
+plot.CTD.data(Ex2, depvar = "prDM")
+```
+
+![](README_files/figure-gfm/Example2-2.png)<!-- -->
+
+``` r
+plot.CTD.data(Ex2, depvar = "sigma.é00", not2plot = c("flag", "nbin", "nbf", "upoly0", "upoly1"))
+```
+
+![](README_files/figure-gfm/Example2-3.png)<!-- -->
+
+``` r
+plot.CTD.data(Ex2, not2plot = "par")
+```
+
+![](README_files/figure-gfm/Example2-4.png)<!-- -->
