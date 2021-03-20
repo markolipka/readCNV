@@ -3,7 +3,7 @@ library(reshape2)
 library(tidyverse)
 
 plot.CTD.data <- function(CTD.data,
-                          not2plot = c("scan", "nbin",
+                          not2plot = c("depSM", "prDM", "pr", "scan", "nbin",
                                        "flag", "timeS", "nbf",
                                        "altM", "prDM", "spar",
                                        "header.latitude", "header.longitude",
@@ -30,7 +30,7 @@ plot.CTD.data <- function(CTD.data,
             coord_flip() +
             facet_grid(.~variable, scales = "free") +
             theme_bw() +
-            ggtitle(paste(meta %>% na_if("character(0)"), collapse = ", ")) +
+            ggtitle(paste(names(meta), meta %>% na_if("character(0)"), collapse = ", ")) +
             xlab(paste0("Depth (", water.depth.parameter, ")")) +
             theme(axis.text.x = element_text(angle = 45, hjust = 1))
     })

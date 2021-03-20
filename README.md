@@ -40,13 +40,13 @@ knitr::kable(head(Ex1$data))
 pander(Ex1$meta)
 ```
 
--   **cruise**: EMB-100
--   **station**: 0001
--   **cast**: 0001
--   **series**: Kiki
--   **name**: STOL aus .eMission.
--   **bottom.depth**: 18.54
--   **timestamp**: 09:18:13 09-APR-15
+-   **Cruise**: EMB-100
+-   **Station**: 0001
+-   **Cast**: 0001
+-   **Series**: Kiki
+-   **Name**: STOL aus .eMission.
+-   **Bottom\_depth**: 18.54
+-   **Timestamp**: 09:18:13 09-APR-15
 
 <!-- end of list -->
 
@@ -77,13 +77,13 @@ knitr::kable(head(Ex2$data))
 pander(Ex2$meta)
 ```
 
--   **cruise**:
--   **station**: 0009
--   **cast**: 0009
--   **series**: Krueger
--   **name**: MSM33/28 aus .eMission.
--   **bottom.depth**: 153.2
--   **timestamp**: 03:41:07 12-Nov-13
+-   **Cruise**:
+-   **Station**: 0009
+-   **Cast**: 0009
+-   **Series**: Krueger
+-   **Name**: MSM33/28 aus .eMission.
+-   **Bottom\_depth**: 153.2
+-   **Timestamp**: 03:41:07 12-Nov-13
 
 <!-- end of list -->
 

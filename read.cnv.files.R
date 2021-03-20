@@ -51,13 +51,13 @@ read.cnv.file <- function(filename){ #  filename as character string (e.g. "V003
         data.frame$header.longitude <- longdec
         
         return(list("data" = data.frame, # the function finally returns the data.frame ...
-                    meta = list("cruise" = cruise,
-                                "station" = station,     
-                                "cast" = cast,        
-                                "series" = serie,       
-                                "name" = name,
-                                "bottom.depth" = bottom.depth,
-                                "timestamp" = timestamp)))} #  ... and the metadata
+                    meta = list("Cruise" = cruise,
+                                "Station" = station,     
+                                "Cast" = cast,        
+                                "Series" = serie,       
+                                "Name" = name,
+                                "Bottom_depth" = bottom.depth,
+                                "Timestamp" = timestamp)))} #  ... and the metadata
     else{warning("cnv-file seems to contain no measurement data!")
         return(NULL)}}
     ## IDEA: return a list including the data.frame, header.definition.df$longname and some metadata (Date, position, cruise, operator, ...)
