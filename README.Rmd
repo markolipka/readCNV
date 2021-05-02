@@ -19,9 +19,12 @@ output: github_document
 ```{r setup, include=FALSE}
 library(knitr)
 library(pander)
+
 knitr::opts_chunk$set(echo = TRUE, fig.width=15, fig.height=4)
+
 source("read.cnv.files.R")
 source("plot.CTD.data.R")
+source("map.CTD.data.R")
 ```
 
 # Examples
@@ -29,7 +32,7 @@ source("plot.CTD.data.R")
 ## V0001F01.cnv
 
 ```{r Example1}
-Ex1 <- read.cnv.file("example data/V0001F01.cnv")
+Ex1 <- read.cnv.file("example data/IOW/V0001F01.cnv")
 
 knitr::kable(head(Ex1$data))
 pander(Ex1$meta)
@@ -41,7 +44,7 @@ plot.CTD.data(Ex1)
 ## P0009F01.cnv
 
 ```{r Example2}
-Ex2 <- read.cnv.file("example data/P0009F01.cnv")
+Ex2 <- read.cnv.file("example data/IOW/P0009F01.cnv")
 
 knitr::kable(head(Ex2$data))
 pander(Ex2$meta)
@@ -57,7 +60,7 @@ plot.CTD.data(Ex2, not2plot = "par")
 
 ### Savannah
 
-via mail from [SimplySav101](https://github.com/SimplySav101)
+via mail and with kind permission from [SimplySav101](https://github.com/SimplySav101)
 
 ```{r Savannah}
 Sav <- read.cnv.file("example data/Savannah/2017-03-10T075604 SBE02501006.cnv")
@@ -77,7 +80,7 @@ plot.CTD.data(Sav)
 - https://github.com/cmunozmas/plot_raw_ctd
 
 ```{r}
-path_CNVs <- "example data/fromGithub/"
+path_CNVs <- "example data/fromGithub"
 
 files <- list.files(path = path_CNVs, 
                     pattern = "\\.cnv$",
@@ -128,3 +131,11 @@ ggplot(melted.df.2,
     theme_bw() +
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+
+
+## Dynamic map
+
+```{r}
+map.CTD.data("example data/IOW/")
+```
+
