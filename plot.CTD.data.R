@@ -8,20 +8,29 @@ plot.CTD.data <- function(CTD.data,
                                        "altM", "prDM", "spar",
                                        "header.latitude", "header.longitude",
                                        "latitude", "longitude"),
-                          depvar = c("depSM", "prDM", "pr")){
-    df   <- CTD.data$data
+                          depvar = c("depSM", "prDM", "pr", "prdM", "prM")){
+    
+    #"water depth parameter of choice is the first one that matches 'depvar' ...
+    water.depth.parameter <- names(CTD.data$data)[names(CTD.data$data) %in% depvar][1]
+    # ... alternatively the first column
+    if(is.na(water.depth.parameter)){
+    water.depth.parameter <- names(CTD.data$data)[1]
+    warning("No matching water depth parameter found, guessing ", water.depth.parameter)
+    }
+        
+    
+    df   <- CTD.data$data %>%
+        mutate()
     meta <- CTD.data$meta
     
     try({
-        melted.df <- melt(df, id.vars = names(df)[names(df) %in% c(depvar, not2plot)])
+        melted.df <- melt(df, id.vars = names(df)[names(df) %in% c(depvar, not2plot, water.depth.parameter)])
         
-        #"water depth parameter of choice is the first one that matches 'depvar':
-        water.depth.parameter <- names(melted.df)[names(melted.df) %in% depvar][1]
         melted.df$depth <- melted.df[, water.depth.parameter]
         
         if(nrow(df) < 50){
             geom_case <- geom_point()
-        }else{geom_case <- geom_line()} 
+        }else{geom_case <- geom_path()} 
         
         ggplot(melted.df,
                aes(x = depth, y = value)) +
@@ -30,8 +39,10 @@ plot.CTD.data <- function(CTD.data,
             coord_flip() +
             facet_grid(.~variable, scales = "free") +
             theme_bw() +
-            ggtitle(paste(names(meta), meta %>% na_if("character(0)"), collapse = ", ")) +
+            ggtitle(paste(names(meta), meta %>% na_if("character(0)"), collapse = "; ") %>%
+                        sub("(.{80}[^;]*);", "\\1\\\n", .)) + # linebreak at first ";" after n characters
             xlab(paste0("Depth (", water.depth.parameter, ")")) +
+            ylab(NULL) +
             theme(axis.text.x = element_text(angle = 45, hjust = 1))
     })
     
