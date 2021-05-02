@@ -3,6 +3,20 @@
 ##### v0.2   Marko Lipka   marko.lipka@posteo.de #############
 ##############################################################
 
+## find GPS Coordinates in cnv file via pattern matching: 
+find_coord <- function(lines){
+    # pattern definition:
+    lat_pattern <- "^\\*.* ([0-9]*\\s[0-9]*\\.[0-9]*\\s?[NS]).*"
+    lon_pattern <- "^\\*.* ([0-9]*\\s[0-9]*\\.[0-9]*\\s?[EW]).*"
+    # extract first line, that matches pattern:
+    lat_idx <- grep(lat_pattern, x = lines)[1]
+    lon_idx <- grep(lon_pattern, x = lines)[1]
+    # extract coordinates:
+    lat <- sub(lat_pattern, "\\1", lines[lat_idx])
+    lon <- sub(lon_pattern, "\\1", lines[lon_idx])
+    # return coordinates:
+    return(list("Lat" = lat, "Lon" = lon))
+}
 
 read.cnv.file <- function(filename){ #  filename as character string (e.g. "V0033F01.cnv")
     cnv.file <- readLines(filename, encoding = "latin1") #  reads the file as large character string
@@ -10,13 +24,18 @@ read.cnv.file <- function(filename){ #  filename as character string (e.g. "V003
     bad.flag <- sub(".*= (.*)$", "\\1", cnv.file[grep("bad_flag", cnv.file)])
     cnv.file <- gsub(bad.flag, " NA ", cnv.file)
     
-    cruise       <- sub(".*=(.*)", "\\1",cnv.file[grep("ReiseNr", cnv.file)])
-    station      <- sub(".*=(.*)", "\\1",cnv.file[grep("StationNr", cnv.file)])
-    cast         <- sub(".*=(.*)", "\\1",cnv.file[grep("EinsatzNr", cnv.file)])
-    serie        <- sub(".*=(.*)", "\\1",cnv.file[grep("SerieNr", cnv.file)])
-    name         <- sub(".*=(.*)", "\\1",cnv.file[grep("StatBez", cnv.file)])
-    timestamp    <- sub(".*=(.*)", "\\1",cnv.file[grep("Startzeit", cnv.file)])
-    bottom.depth <- sub(".* ([0-9.]*) .*$", "\\1", cnv.file[grep("Echolote", cnv.file)])
+    metadata <- cnv.file[grep("** ", cnv.file, fixed = TRUE)] %>%
+        str_remove_all("\\*") %>% str_squish()
+    
+    latlon <- find_coord(cnv.file)
+    
+    # cruise       <- sub(".*=(.*)", "\\1",cnv.file[grep("ReiseNr", cnv.file)])
+    # station      <- sub(".*=(.*)", "\\1",cnv.file[grep("StationNr", cnv.file)])
+    # cast         <- sub(".*=(.*)", "\\1",cnv.file[grep("EinsatzNr", cnv.file)])
+    # serie        <- sub(".*=(.*)", "\\1",cnv.file[grep("SerieNr", cnv.file)])
+    # name         <- sub(".*=(.*)", "\\1",cnv.file[grep("StatBez", cnv.file)])
+    # timestamp    <- sub(".*=(.*)", "\\1",cnv.file[grep("Startzeit", cnv.file)])
+    # bottom.depth <- sub(".* ([0-9.]*) .*$", "\\1", cnv.file[grep("Echolote", cnv.file)])
     
     header.definition.list <- as.list(cnv.file)[grep("# name", cnv.file)] #  find column definitions in the header, store as list
     header.definition.df   <- data.frame( #  write column names and description in data.frame
@@ -26,14 +45,14 @@ read.cnv.file <- function(filename){ #  filename as character string (e.g. "V003
     header.end.position <- grep("*END*", cnv.file) #  find string '*END*' in cnv-file that marks the end of the header, thus the beginning of the data table
     
     # extract longitude and latitude from header - not all SBE cnv's contain columns with lon and lat
-    position <- cnv.file[grep("GPS_Posn", cnv.file)]
-    pos.regexp <- ".*= ([-1234567890]*) ([1234567890.]*)[NS] ([-1234567890]*) ([1234567890.]*)[EW].*"
-    latdeg <- as.numeric(sub(pos.regexp, "\\1", position))
-    latmin <- as.numeric(sub(pos.regexp, "\\2", position))
-    latdec <- latdeg + latmin / 60
-    longdeg <- as.numeric(sub(pos.regexp, "\\3", position))
-    longmin <- as.numeric(sub(pos.regexp, "\\4", position))
-    longdec <- longdeg + longmin / 60
+    # position <- cnv.file[grep("GPS_Posn", cnv.file)]
+    # pos.regexp <- ".*= ([-1234567890]*) ([1234567890.]*)[NS] ([-1234567890]*) ([1234567890.]*)[EW].*"
+    # latdeg <- as.numeric(sub(pos.regexp, "\\1", position))
+    # latmin <- as.numeric(sub(pos.regexp, "\\2", position))
+    # latdec <- latdeg + latmin / 60
+    # longdeg <- as.numeric(sub(pos.regexp, "\\3", position))
+    # longmin <- as.numeric(sub(pos.regexp, "\\4", position))
+    # longdec <- longdeg + longmin / 60
     
     # read data table ...
     if(length(cnv.file) > header.end.position){
@@ -47,17 +66,12 @@ read.cnv.file <- function(filename){ #  filename as character string (e.g. "V003
                                  stringsAsFactors = FALSE) 
         
         # add longitude and latitude from header as new columns
-        data.frame$header.latitude <- latdec
-        data.frame$header.longitude <- longdec
+        # data.frame$header.latitude <- latdec
+        # data.frame$header.longitude <- longdec
         
         return(list("data" = data.frame, # the function finally returns the data.frame ...
-                    meta = list("Cruise" = cruise,
-                                "Station" = station,     
-                                "Cast" = cast,        
-                                "Series" = serie,       
-                                "Name" = name,
-                                "Bottom_depth" = bottom.depth,
-                                "Timestamp" = timestamp)))} #  ... and the metadata
+                    "coords" = latlon,   # the extracted coordinates ...
+                    "meta" = metadata))} #  ... and the metadata
     else{warning("cnv-file seems to contain no measurement data!")
         return(NULL)}}
     ## IDEA: return a list including the data.frame, header.definition.df$longname and some metadata (Date, position, cruise, operator, ...)
