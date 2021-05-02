@@ -33,6 +33,7 @@ Ex1 <- read.cnv.file("example data/V0001F01.cnv")
 
 knitr::kable(head(Ex1$data))
 pander(Ex1$meta)
+pander(Ex1$coords)
 
 plot.CTD.data(Ex1)
 ```
@@ -44,11 +45,50 @@ Ex2 <- read.cnv.file("example data/P0009F01.cnv")
 
 knitr::kable(head(Ex2$data))
 pander(Ex2$meta)
+pander(Ex2$coords)
 
 plot.CTD.data(Ex2)
 plot.CTD.data(Ex2, depvar = "prDM")
 plot.CTD.data(Ex2, depvar = "sigma.é00", not2plot = c("flag", "nbin", "nbf", "upoly0", "upoly1"))
 plot.CTD.data(Ex2, not2plot = "par")
+```
+
+## Example CNV-files from other sources
+
+### Savannah
+
+via mail from [SimplySav101](https://github.com/SimplySav101)
+
+```{r Savannah}
+Sav <- read.cnv.file("example data/Savannah/2017-03-10T075604 SBE02501006.cnv")
+
+knitr::kable(head(Sav$data))
+pander(Sav$meta)
+pander(Sav$coords)
+
+plot.CTD.data(Sav)
+```
+
+### Github 
+
+- https://github.com/castelao/seabird
+- https://github.com/NatalyaEvans/cnv_concatenator
+- https://github.com/labons/cnv_reader
+- https://github.com/cmunozmas/plot_raw_ctd
+
+```{r}
+path_CNVs <- "example data/fromGithub/"
+
+files <- list.files(path = path_CNVs, 
+                    pattern = "\\.cnv$",
+                    full.names = TRUE,
+                    recursive = T, ignore.case = T)
+
+for(file in files){
+    print(file)
+    import <- read.cnv.file(file)
+    print(plot.CTD.data(import))
+}
 ```
 
 
