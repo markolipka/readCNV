@@ -15,7 +15,11 @@ always_allow_html: true
     + depvar: character (vector) of parameter(s) that should be used as depth axis. First match in parameter names will be used if multiple parameters are defined.
     + not2plot: character (vector) of parameter(s) that should not be plotted. default is a list of common metadata parameters like "*scan*", "*nbin*", "*flag*", "*latitude*", ...
 
+`map.CTD.data()` function
 
+- takes a directory as argument
+- finds and `read.cnv.file()` all cnv files in this directory
+- creates a dynamic point map which popups the `plot.CTD.data()`-plot on click
 
 ```{r setup, include=FALSE}
 library(knitr)
@@ -135,6 +139,8 @@ ggplot(melted.df.2,
 
 
 ## Dynamic map
+
+*only a screenshot can be shown on github*
 
 ```{r}
 map.CTD.data("example data/IOW/")
