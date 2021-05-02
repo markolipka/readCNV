@@ -1,5 +1,5 @@
 
-library(reshape2)
+#library(reshape2)
 library(tidyverse)
 
 plot.CTD.data <- function(CTD.data,
@@ -24,9 +24,13 @@ plot.CTD.data <- function(CTD.data,
     meta <- CTD.data$meta
     
     try({
-        melted.df <- melt(df, id.vars = names(df)[names(df) %in% c(depvar, not2plot, water.depth.parameter)])
+        melted.df <- df %>% 
+            pivot_longer(cols = names(df)[!names(df) %in% c(depvar, not2plot, water.depth.parameter)], 
+                         names_to = "variable") %>%
+            rename(depth = all_of(water.depth.parameter))
+            #melt(df, id.vars = names(df)[names(df) %in% c(depvar, not2plot, water.depth.parameter)])
         
-        melted.df$depth <- melted.df[, water.depth.parameter]
+       # melted.df$depth <- melted.df %>% pull(water.depth.parameter)
         
         if(nrow(df) < 50){
             geom_case <- geom_point()
@@ -40,7 +44,7 @@ plot.CTD.data <- function(CTD.data,
             facet_grid(.~variable, scales = "free") +
             theme_bw() +
             ggtitle(paste(names(meta), meta %>% na_if("character(0)"), collapse = "; ") %>%
-                        sub("(.{80}[^;]*);", "\\1\\\n", .)) + # linebreak at first ";" after n characters
+                        sub("(.{100}[^;]*);", "\\1\\\n", .)) + # linebreak at first ";" after n characters
             xlab(paste0("Depth (", water.depth.parameter, ")")) +
             ylab(NULL) +
             theme(axis.text.x = element_text(angle = 45, hjust = 1))
