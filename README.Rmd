@@ -3,6 +3,7 @@ title: "read and plot SBE CTD cnv-files"
 author: "Marko Lipka, David Kaiser"
 date: "`r lubridate::today()`"
 output: github_document
+always_allow_html: true
 ---
 
 `read.cnv.file()` function takes a filename of a .cnv file as argument and returns a data.frame.
