@@ -18,8 +18,7 @@ plot.CTD.data <- function(CTD.data,
     }
         
     
-    df   <- CTD.data$data %>%
-        mutate()
+    df   <- CTD.data$data
     meta <- CTD.data$meta
     
     try({
