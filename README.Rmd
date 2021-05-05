@@ -15,6 +15,10 @@ always_allow_html: true
     + depvar: character (vector) of parameter(s) that should be used as depth axis. First match in parameter names will be used if multiple parameters are defined.
     + not2plot: character (vector) of parameter(s) that should not be plotted. default is a list of common metadata parameters like "*scan*", "*nbin*", "*flag*", "*latitude*", ...
 
+`extract.stats()` function takes a filename of a .cnv file or the output of `read.cnv.file()` as argument and returns summary statistics of each parameter.
+
+`extract.stats.dir()` function takes a directory as argument and returns summary statistics of each parameter in each .cnv file in the given directory.
+
 `map.CTD.data()` function
 
 - takes a directory as argument
@@ -30,6 +34,7 @@ knitr::opts_chunk$set(echo = TRUE, fig.width=15, fig.height=4)
 source("read.cnv.files.R")
 source("plot.CTD.data.R")
 source("map.CTD.data.R")
+source("extract.stats.R")
 ```
 
 # Examples
@@ -44,6 +49,8 @@ pander(Ex1$meta)
 pander(Ex1$coords)
 
 plot.CTD.data(Ex1)
+
+knitr::kable(extract.stats(Ex1))
 ```
 
 ## P0009F01.cnv
@@ -59,7 +66,16 @@ plot.CTD.data(Ex2)
 plot.CTD.data(Ex2, depvar = "prDM")
 plot.CTD.data(Ex2, depvar = "sigma.é00", not2plot = c("flag", "nbin", "nbf", "upoly0", "upoly1"))
 plot.CTD.data(Ex2, not2plot = "par")
+
+knitr::kable(extract.stats(Ex2))
 ```
+
+## Summary statistics of both files
+
+```{r}
+extract.stats.dir("example data/IOW/")
+```
+
 
 ## Example CNV-files from other sources
 
@@ -75,6 +91,8 @@ pander(Sav$meta)
 pander(Sav$coords)
 
 plot.CTD.data(Sav)
+
+knitr::kable(extract.stats(Sav))
 ```
 
 ### Github 
@@ -140,9 +158,8 @@ ggplot(melted.df.2,
 
 ## Dynamic map
 
-*only a screenshot can be shown on github*
+*only a screenshot of the dynamic map can be shown on github*
 
 ```{r}
 map.CTD.data("example data/IOW/")
 ```
-
